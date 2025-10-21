@@ -25,14 +25,83 @@
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
+        /* BACKGROUND TRANSPARAN TOTAL */
         body {
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: #ffffff;
+            background: transparent !important;
         }
 
-        /* Chatbot Container */
+        /* FLOATING ICON - BACKGROUND HILANG, HANYA ICON SAJA */
+        .floating-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(67, 97, 238, 0.4);
+        }
+
+        .floating-icon .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 1.5s infinite;
+        }
+
+        .floating-icon.pulse {
+            animation: floatPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.05); }
+        }
+
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0px) scale(1); box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3); }
+            50% { transform: translateY(-8px) scale(1.05); box-shadow: 0 12px 35px rgba(67, 97, 238, 0.5); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* HIDDEN STATE */
+        .hidden {
+            display: none !important;
+        }
+
+        /* CHATBOT CONTAINER - BACKGROUND PUTIH NORMAL */
         .chatbot-container {
             width: 380px;
             height: 600px;
@@ -49,59 +118,6 @@
             z-index: 1000;
         }
 
-        .chatbot-container.minimized {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-        }
-
-        /* Chatbot Icon (Minimized State) */
-        .chatbot-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .chatbot-icon:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 30px rgba(67, 97, 238, 0.4);
-        }
-
-        .chatbot-icon .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4757;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Header */
         .chat-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -112,10 +128,6 @@
             position: relative;
             flex-shrink: 0;
             cursor: pointer;
-        }
-
-        .minimized .chat-header {
-            display: none;
         }
 
         .header-actions {
@@ -177,19 +189,15 @@
             animation: pulse 2s infinite;
         }
 
-        /* Chat Messages */
+        /* CHAT MESSAGES DENGAN BACKGROUND TRANSPARAN */
         .chat-messages {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-            background: #f5f7fb;
+            background: transparent !important;
             display: flex;
             flex-direction: column;
             gap: 16px;
-        }
-
-        .minimized .chat-messages {
-            display: none;
         }
 
         .message {
@@ -207,11 +215,14 @@
         }
 
         .bot-message {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             color: var(--dark);
             border-bottom-left-radius: 4px;
             align-self: flex-start;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .user-message {
@@ -219,6 +230,7 @@
             color: white;
             border-bottom-right-radius: 4px;
             align-self: flex-end;
+            box-shadow: 0 2px 10px rgba(67, 97, 238, 0.3);
         }
 
         .quick-replies {
@@ -229,48 +241,53 @@
         }
 
         .quick-reply {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(67, 97, 238, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(67, 97, 238, 0.3);
             color: var(--primary);
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .quick-reply:hover {
             background: var(--primary);
             color: white;
+            transform: translateY(-1px);
         }
 
-        /* Input Area */
+        /* INPUT AREA DENGAN GLASS EFFECT */
         .chat-input-container {
             padding: 16px;
-            background: white;
-            border-top: 1px solid #eaeaea;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid rgba(234, 234, 234, 0.5);
             display: flex;
             gap: 10px;
             flex-shrink: 0;
-        }
-
-        .minimized .chat-input-container {
-            display: none;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .chat-input {
             flex: 1;
             padding: 12px 16px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(224, 224, 224, 0.5);
             border-radius: 24px;
             outline: none;
             font-size: 0.95rem;
             transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .chat-input:focus {
             border-color: var(--primary-light);
             box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .send-button {
@@ -293,17 +310,18 @@
             box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
         }
 
-        /* Typing Indicator */
         .typing-indicator {
             display: flex;
             align-items: center;
             gap: 4px;
             padding: 12px 16px;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: var(--radius-small);
             width: fit-content;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             margin-bottom: 8px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .typing-dot {
@@ -322,13 +340,13 @@
             40% { transform: scale(1); opacity: 1; }
         }
 
-        /* Scrollbar */
+        /* Scrollbar styling */
         .chat-messages::-webkit-scrollbar {
             width: 6px;
         }
 
         .chat-messages::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(241, 241, 241, 0.5);
             border-radius: 10px;
         }
 
@@ -351,15 +369,7 @@
                 right: 0;
             }
             
-            .chatbot-container.minimized {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .chatbot-icon {
+            .floating-icon {
                 bottom: 20px;
                 right: 20px;
             }
@@ -367,9 +377,17 @@
     </style>
 </head>
 <body>
-    <!-- Chatbot Container -->
-    <div class="chatbot-container" id="chatbotContainer">
-        <div class="chat-header" onclick="minimizeChatbot()">
+    <!-- Floating Icon (Default: Visible) -->
+    <button class="floating-icon" id="floatingIcon" onclick="toggleChatbot()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z" fill="white"/>
+        </svg>
+        <div class="notification-badge" id="notificationBadge" style="display: none;">1</div>
+    </button>
+
+    <!-- Chatbot Container (Default: Hidden) -->
+    <div class="chatbot-container hidden" id="chatbotContainer">
+        <div class="chat-header" onclick="toggleChatbot()">
             <div class="bot-avatar">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM8 17C7.45 17 7 16.55 7 16C7 15.45 7.45 15 8 15C8.55 15 9 15.45 9 16C9 16.55 8.55 17 8 17ZM9 13C9 13.55 8.55 14 8 14C7.45 14 7 13.55 7 13C7 12.45 7.45 12 8 12C8.55 12 9 12.45 9 13ZM12 18C10.9 18 10 17.1 10 16H14C14 17.1 13.1 18 12 18ZM16 14C15.45 14 15 13.55 15 13C15 12.45 15.45 12 16 12C16.55 12 17 12.45 17 13C17 13.55 16.55 14 16 14ZM17 17C16.45 17 16 16.55 16 16C16 15.45 16.45 15 17 15C17.55 15 18 15.45 18 16C18 16.55 17.55 17 17 17ZM18 11H6C6 8.79 7.79 7 10 7H14C16.21 7 18 8.79 18 11Z" fill="currentColor"/>
@@ -378,13 +396,6 @@
             <div class="bot-info">
                 <h3>Ubay Asisten Virtual</h3>
                 <p>Online 24 Jam</p>
-            </div>
-            <div class="header-actions">
-                <button class="minimize-btn" onclick="minimizeChatbot()" title="Minimize">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 13H5V11H19V13Z" fill="currentColor"/>
-                    </svg>
-                </button>
             </div>
             <div class="status-indicator"></div>
         </div>
@@ -412,26 +423,58 @@
         </div>
     </div>
 
-    <!-- Chatbot Icon (Minimized State) -->
-    <div class="chatbot-icon" id="chatbotIcon" onclick="maximizeChatbot()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z" fill="white"/>
-        </svg>
-        <div class="notification-badge" id="notificationBadge" style="display: none;">1</div>
-    </div>
-
     <script>
         // Konfigurasi Google Apps Script
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAcBZx2J4TMIqdkvvmpz7hl04XY83dFZ6VaBb-MRfeYsWbA6254ZIGcj5I5ueesAYInQ/exec'; // Ganti dengan URL Google Apps Script Anda
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAcBZx2J4TMIqdkvvmpz7hl04XY83dFZ6VaBb-MRfeYsWbA6254ZIGcj5I5ueesAYInQ/exec';
 
         // State management
-        let isMinimized = false;
         let unreadMessages = 0;
+        let isMinimized = true; // Start minimized
         const sessionId = generateSessionId();
         let userName = '';
 
         function generateSessionId() {
             return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // Toggle between minimized and maximized states
+        function toggleChatbot() {
+            const container = document.getElementById('chatbotContainer');
+            const icon = document.getElementById('floatingIcon');
+            
+            if (isMinimized) {
+                // Maximize - Show container, hide icon
+                container.classList.remove('hidden');
+                icon.classList.add('hidden');
+                
+                // Reset notification
+                unreadMessages = 0;
+                document.getElementById('notificationBadge').style.display = 'none';
+            } else {
+                // Minimize - Hide container, show icon
+                container.classList.add('hidden');
+                icon.classList.remove('hidden');
+            }
+            
+            isMinimized = !isMinimized;
+        }
+
+        // Show notification when minimized
+        function showNotification() {
+            if (isMinimized) {
+                unreadMessages++;
+                const badge = document.getElementById('notificationBadge');
+                badge.textContent = unreadMessages;
+                badge.style.display = 'flex';
+                
+                const icon = document.getElementById('floatingIcon');
+                icon.classList.add('pulse');
+                
+                // Remove pulse animation after 3 seconds
+                setTimeout(() => {
+                    icon.classList.remove('pulse');
+                }, 3000);
+            }
         }
 
         // Fungsi untuk mengambil response dari Google Sheets
@@ -482,55 +525,6 @@
                 console.log('Chat berhasil disimpan:', result);
             } catch (error) {
                 console.error('Error menyimpan chat:', error);
-            }
-        }
-
-        // Chatbot control functions
-        function minimizeChatbot() {
-            const container = document.getElementById('chatbotContainer');
-            const icon = document.getElementById('chatbotIcon');
-            
-            container.classList.add('minimized');
-            setTimeout(() => {
-                container.style.display = 'none';
-                icon.style.display = 'flex';
-            }, 300);
-            
-            isMinimized = true;
-        }
-
-        function maximizeChatbot() {
-            const container = document.getElementById('chatbotContainer');
-            const icon = document.getElementById('chatbotIcon');
-            const badge = document.getElementById('notificationBadge');
-            
-            container.style.display = 'flex';
-            icon.style.display = 'none';
-            
-            setTimeout(() => {
-                container.classList.remove('minimized');
-            }, 10);
-            
-            // Reset notification badge
-            unreadMessages = 0;
-            badge.style.display = 'none';
-            
-            isMinimized = false;
-        }
-
-        function showNotification() {
-            if (isMinimized) {
-                unreadMessages++;
-                const badge = document.getElementById('notificationBadge');
-                badge.textContent = unreadMessages;
-                badge.style.display = 'flex';
-                
-                // Add bounce animation to icon
-                const icon = document.getElementById('chatbotIcon');
-                icon.style.animation = 'bounce 0.5s ease infinite alternate';
-                setTimeout(() => {
-                    icon.style.animation = '';
-                }, 2000);
             }
         }
 
@@ -655,24 +649,15 @@
             }
         }
 
-        // Initialize - hide icon initially since chatbot is open
+        // Initialize - Start with floating icon visible
         document.addEventListener('DOMContentLoaded', function() {
-            const icon = document.getElementById('chatbotIcon');
-            icon.style.display = 'none';
+            const container = document.getElementById('chatbotContainer');
+            const icon = document.getElementById('floatingIcon');
             
-            const firstMessage = document.querySelector('.message');
-            firstMessage.style.animation = 'fadeIn 0.5s ease';
+            // Start minimized (floating icon visible)
+            container.classList.add('hidden');
+            icon.classList.remove('hidden');
         });
-
-        // Add bounce animation for notifications
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes bounce {
-                from { transform: scale(1); }
-                to { transform: scale(1.1); }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
